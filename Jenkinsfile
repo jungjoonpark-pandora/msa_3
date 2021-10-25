@@ -3,9 +3,7 @@ pipeline {
     string(name: 'IMAGE_NAME', defaultValue: 'hello')
     string(name: 'CONTAINER_NAME', defaultValue: 'hello')
   }
-  agent { 
-    label 'hello'
-  }
+  agent any
   tools {
     jdk 'jdk-11'
   }
