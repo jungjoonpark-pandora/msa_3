@@ -14,12 +14,20 @@ pipeline {
   }
   stages {
 
-    stage('Build Jar') {
+   stage('Build Jar') {
       steps {
-         dir(env.WORK_DIR) {
-            sh "chmod +x ./gradlew"
-            sh "./gradlew clean build"
-         }
+          dir('eurekaserver') {
+              sh './gradlew bootJar'
+          }
+          dir('gatewayserver') {
+              sh './gradlew bootJar'
+          }
+          dir('product') {
+              sh './gradlew bootJar'
+          }
+          dir('review') {
+              sh './gradlew bootJar'
+          }
       }
     }
 
