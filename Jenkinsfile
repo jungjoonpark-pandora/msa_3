@@ -49,9 +49,9 @@ pipeline {
             }
         }
 
-        stage('Deploy Docker Images') {
-
-        }
+//         stage('Deploy Docker Images') {
+//
+//         }
 
         stage('Docker Compose Up') {
             steps {
