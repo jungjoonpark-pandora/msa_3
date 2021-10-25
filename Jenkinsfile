@@ -16,16 +16,20 @@ pipeline {
    stage('Build Jar') {
       steps {
           dir('jjpark/eurekaserver') {
-              sh './gradlew bootJar' //sh './gradlew clean build'
+              //sh './gradlew bootJar'
+              sh './gradlew clean build'
           }
           dir('jjpark/gatewayserver') {
-              sh './gradlew bootJar' //sh './gradlew clean build'
+              //sh './gradlew bootJar'
+              sh './gradlew clean build'
           }
           dir('jjpark/product') {
-              sh './gradlew bootJar' //sh './gradlew clean build'
+              //sh './gradlew bootJar'
+              sh './gradlew clean build'
           }
           dir('jjpark/review') {
-              sh './gradlew bootJar' // sh './gradlew clean build'
+              //sh './gradlew bootJar'
+              sh './gradlew clean build'
           }
       }
     }
