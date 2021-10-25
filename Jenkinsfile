@@ -34,10 +34,10 @@ pipeline {
     stage('Build Docker Image') {
       steps {
         script {
-            eurekaserver = docker.build("jjpark/eurekaserver:latest", "-f eurekaserver/Dockerfile .")
-            gatewayserver = docker.build("jjpark/gatewayserver:latest", "-f gatewayserver/Dockerfile .")
-            product = docker.build("jjpark/product:latest", "-f product/Dockerfile .")
-            review = docker.build("jjpark/review:latest", "-f review/Dockerfile .")
+            eurekaserver = docker.build("jjpark/eurekaserver")
+            gatewayserver = docker.build("jjpark/gatewayserver")
+            product = docker.build("jjpark/product")
+            review = docker.build("jjpark/review:latest")
         }
       }
     }
