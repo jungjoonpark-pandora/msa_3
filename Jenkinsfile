@@ -1,7 +1,7 @@
 pipeline {
   parameters {
-    string(name: 'IMAGE_NAME', defaultValue: 'hello')
-    string(name: 'CONTAINER_NAME', defaultValue: 'hello')
+    string(name: 'IMAGE_NAME', defaultValue: 'msa')
+    string(name: 'CONTAINER_NAME', defaultValue: 'msa')
   }
 
   environment {
@@ -19,13 +19,13 @@ pipeline {
           dir('jjpark/eurekaserver') {
               sh './gradlew bootJar'
           }
-          dir('gatewayserver') {
+          dir('jjpark/gatewayserver') {
               sh './gradlew bootJar'
           }
-          dir('product') {
+          dir('jjpark/product') {
               sh './gradlew bootJar'
           }
-          dir('review') {
+          dir('jjpark/review') {
               sh './gradlew bootJar'
           }
       }
@@ -34,7 +34,11 @@ pipeline {
     stage('Build Docker Image') {
       steps {
         script {
-          docker.build(params.IMAGE_NAME)
+            docker.build("jjpark/eurekaserver:latest", "-f eurekaserver/Dockerfile .")
+            docker.build("jjpark/gatewayserver:latest", "-f gatewayserver/Dockerfile .")
+//             def discovery = docker.build("wjsgus95/discovery:latest", "-f discovery/Dockerfile .")
+//             def product = docker.build("wjsgus95/product:latest", "-f product/Dockerfile .")
+//             def review = docker.build("wjsgus95/review:latest", "-f review/Dockerfile .")
         }
       }
     }
