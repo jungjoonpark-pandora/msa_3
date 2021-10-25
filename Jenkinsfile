@@ -1,5 +1,11 @@
 pipeline {
 
+    environment {
+        registry = "jjpark/centos_telnet"
+        registryCredential = 'test'
+        def BUILDVERSION = sh(script: "echo `date +%s`", returnStdout: true).trim()
+    }
+
     agent any
 
     tools {
@@ -16,44 +22,52 @@ pipeline {
         stage('Build Jar') {
             steps {
                 dir('jjpark/eurekaserver') {
-                    //sh './gradlew bootJar'
                     sh './gradlew clean build'
                 }
-//                 dir('jjpark/gatewayserver') {
-//                     sh './gradlew bootJar'
-//                     sh './gradlew clean build'
-//                 }
-//                 dir('jjpark/product') {
-//                     sh './gradlew bootJar'
-//                     sh './gradlew clean build'
-//                 }
-//                 dir('jjpark/review') {
-//                     sh './gradlew bootJar'
-//                     sh './gradlew clean build'
-//                 }
+                dir('jjpark/gatewayserver') {
+                    sh './gradlew clean build'
+                }
+                dir('jjpark/product') {
+                    sh './gradlew clean build'
+                }
+                dir('jjpark/review') {
+                    sh './gradlew clean build'
+                }
             }
         }
 
         stage('Build Docker Image') {
             steps {
-                script {
-                    sh 'docker -build -t eurekaserver/Dockerfile .'
-//                     def eurekaserver = docker.build("eurekaserver:latest", "-f eurekaserver/Dockerfile .")
-//                     def gatewayserver = docker.build("gateway:latest", "-f gatewayserver/Dockerfile .")
-//                     def product_service = docker.build("product_service:latest", "-f product/Dockerfile .")
-//                     def review_service = docker.build("review_service:latest", "-f review/Dockerfile .")
-                    //             eurekaserver = docker.build("jjpark/eurekaserver")
-                    //             gatewayserver = docker.build("jjpark/gatewayserver")
-                    //             product = docker.build("jjpark/product")
-                    //             review = docker.build("jjpark/product")
+                dir(env.WORK_DIR) {
+                    script {
+                        sh 'docker build -t eureka eurekaserver'
+                        sh 'docker build -t gateway gatewayserver'
+                        sh 'docker build -t product_service product'
+                        sh 'docker build -t review_service review'
+                    }
                 }
             }
+        }
+
+        state('Deploy Docker Images') {
+
         }
 
         stage('Docker Compose Up') {
             steps {
                 dir(env.WORK_DIR) {
                     sh "docker-compose up -d"
+                }
+            }
+        }
+
+        state('Clean') {
+            steps {
+                dir(env.WORK_DIR) {
+                    sh "docker rmi eureka"
+                    sh "docker rmi gateway"
+                    sh "docker rmi product_service"
+                    sh "docker rmi review_service"
                 }
             }
         }
