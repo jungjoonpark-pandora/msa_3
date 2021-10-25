@@ -19,18 +19,18 @@ pipeline {
                     //sh './gradlew bootJar'
                     sh './gradlew clean build'
                 }
-                dir('jjpark/gatewayserver') {
-                    //sh './gradlew bootJar'
-                    sh './gradlew clean build'
-                }
-                dir('jjpark/product') {
-                    //sh './gradlew bootJar'
-                    sh './gradlew clean build'
-                }
-                dir('jjpark/review') {
-                    //sh './gradlew bootJar'
-                    sh './gradlew clean build'
-                }
+//                 dir('jjpark/gatewayserver') {
+//                     sh './gradlew bootJar'
+//                     sh './gradlew clean build'
+//                 }
+//                 dir('jjpark/product') {
+//                     sh './gradlew bootJar'
+//                     sh './gradlew clean build'
+//                 }
+//                 dir('jjpark/review') {
+//                     sh './gradlew bootJar'
+//                     sh './gradlew clean build'
+//                 }
             }
         }
 
