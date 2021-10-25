@@ -8,11 +8,6 @@ pipeline {
 
   stages {
 
-   stage('Initialize') {
-        def dockerHome = tool 'myDocker'
-        env.PATH = "${dockerHome}/bin:${env.PATH}"
-   }
-
    stage('Build Jar') {
       steps {
           dir('jjpark/eurekaserver') {
@@ -32,6 +27,11 @@ pipeline {
               sh './gradlew clean build'
           }
       }
+    }
+
+    stage('Initialize') {
+        def dockerHome = tool 'myDocker'
+        env.PATH = "${dockerHome}/bin:${env.PATH}"
     }
 
     stage('Build Docker Image') {
