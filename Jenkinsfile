@@ -1,17 +1,11 @@
 pipeline {
-  parameters {
-    string(name: 'IMAGE_NAME', defaultValue: 'msa')
-    string(name: 'CONTAINER_NAME', defaultValue: 'msa')
-  }
-
-  environment {
-      WORK_DIR = 'jjpark'
-  }
 
   agent any
+
   tools {
     jdk 'jdk-11'
   }
+
   stages {
 
    stage('Build Jar') {
@@ -42,9 +36,9 @@ pipeline {
       }
     }
 
-    stage('compose up') {
+    stage('Docker Compose Up') {
       steps {
-        dir("jjpark") {
+        dir(env.WORK_DIR) {
           sh "docker-compose up -d"
         }
       }
