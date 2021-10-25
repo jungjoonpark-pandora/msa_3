@@ -30,8 +30,8 @@ services:
 
 #  ### docker build -t product_service .
   product_service:
-    build: product/. # Dockerfile
-    #image: product_service
+    #build: product/. # Dockerfile
+    image: product_service
     restart: on-failure
     environment:
       EUREKA_HOST: eurekaserver
@@ -48,8 +48,8 @@ services:
 #    #command: sh -c './wait-for product_db:3307 eurekaserver:8761 -t 10'
 
   review_service:
-    build: review/. # Dockerfile
-#    image: review_service
+    #build: review/. # Dockerfile
+    image: review_service
     restart: on-failure
     environment:
       EUREKA_HOST: eurekaserver

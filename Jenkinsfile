@@ -28,10 +28,14 @@ pipeline {
     stage('Build Docker Image') {
       steps {
         script {
+            //def eurekaserver = docker.build("eurekaserver:latest", "-f eurekaserver/Dockerfile .")
+            //def gatewayserver = docker.build("gateway:latest", "-f gatewayserver/Dockerfile .")
+            //def product_service = docker.build("product_service:latest", "-f product/Dockerfile .")
+            //def review_service = docker.build("review_service:latest", "-f review/Dockerfile .")
             eurekaserver = docker.build("jjpark/eurekaserver")
             gatewayserver = docker.build("jjpark/gatewayserver")
             product = docker.build("jjpark/product")
-            review = docker.build("jjpark/review")
+            review = docker.build("jjpark/product")
         }
       }
     }
