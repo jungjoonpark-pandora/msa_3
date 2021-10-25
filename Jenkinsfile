@@ -8,6 +8,7 @@ pipeline {
     jdk 'jdk-11'
   }
   stages {
+
     stage('Build Jar') {
       steps {
         sh "chmod +x ./gradlew"
