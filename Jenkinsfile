@@ -49,7 +49,7 @@ pipeline {
             }
         }
 
-        state('Deploy Docker Images') {
+        stage('Deploy Docker Images') {
 
         }
 
@@ -61,7 +61,7 @@ pipeline {
             }
         }
 
-        state('Clean') {
+        stage('Clean') {
             steps {
                 dir(env.WORK_DIR) {
                     sh "docker rmi eureka"
