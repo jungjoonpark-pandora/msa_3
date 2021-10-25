@@ -1,12 +1,6 @@
 pipeline {
 
-//   agent any
-
-  agent {
-        docker {
-            image 'maven:3.8.1-adoptopenjdk-11'
-        }
-  }
+  agent any
 
   tools {
     jdk 'jdk-11'
@@ -14,12 +8,10 @@ pipeline {
 
   stages {
 
-//    stage('Initialize') {
-//         def dockerHome = tool 'myDocker'
-//         env.PATH = "${dockerHome}/bin:${env.PATH}"
-//    }
-
-
+   stage('Initialize') {
+        def dockerHome = tool 'myDocker'
+        env.PATH = "${dockerHome}/bin:${env.PATH}"
+   }
 
    stage('Build Jar') {
       steps {
