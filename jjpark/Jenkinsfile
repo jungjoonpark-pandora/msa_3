@@ -3,6 +3,14 @@ pipeline {
     string(name: 'IMAGE_NAME', defaultValue: 'hello')
     string(name: 'CONTAINER_NAME', defaultValue: 'hello')
   }
+
+  environment {
+//       BUILD_VERSION = sh(script: "echo `date +%s`", returnStdout: true).trim()
+//       IMAGE_NAME = 'jhsbeat/config-server'
+//       CONTAINER_NAME = 'config-server'
+      WORK_DIR = 'jjpark/config-server'
+    }
+
   agent any
   tools {
     jdk 'jdk-11'
@@ -11,6 +19,7 @@ pipeline {
 
     stage('Build Jar') {
       steps {
+
         sh "chmod +x ./gradlew"
         sh "./gradlew clean build"
       }
