@@ -14,20 +14,6 @@ services:
     networks:
       - docker_bridge
 
-  ### docker run --name review_db -e MYSQL_ROOT_PASSWORD=root -e MYSQL_DATABASE=review -v review:/var/lib/mysql --network=docker_bridge -p 3306:3306 -d mysql:8.0
-  review_db:
-    image: mysql:8.0
-    container_name: review_db
-    ports:
-      - 3306:3306
-    environment:
-      MYSQL_DATABASE: review
-      MYSQL_ROOT_PASSWORD: root
-    volumes:
-      - review:/var/lib/mysql
-    networks:
-      - docker_bridge
-
 #  ### docker build -t product_service .
   product_service:
     build: product/. # Dockerfile
@@ -44,57 +30,10 @@ services:
     depends_on:
       - product_db
       - eurekaserver
-    entrypoint: /wait-for-it.sh -t 10 product_db:3306 -- /wait-for-it.sh -t 20 eurekaserver:8761 -- java -jar app.jar
-#    #command: sh -c './wait-for product_db:3307 eurekaserver:8761 -t 10'
-
-  review_service:
-    build: review/. # Dockerfile
-#    image: review_service
-    restart: on-failure
-    environment:
-      EUREKA_HOST: eurekaserver
-      MYSQL_HOST: review_db
-      MYSQL_USER: root
-      MYSQL_PASSWORD: root
-      MYSQL_PORT: 3306
-    networks:
-      - docker_bridge
-    depends_on:
-      - review_db
-      - eurekaserver
-    entrypoint: /wait-for-it.sh -t 10 review_db:3306 -- /wait-for-it.sh -t 20 eurekaserver:8761 -- java -jar app.jar
-#    command: sh -c './wait-for review_db:3306 eurekaserver:8761 -t 10'
-
-### docker build -t eurekaserver .
-  eurekaserver:
-    image: eurekaserver
-    container_name: eurekaserver
-    restart: always
-    ports:
-      - 8761:8761
-    networks:
-      - docker_bridge
-
-### docker build -t gatewayserver .
-  gatewayserver:
-    image: gatewayserver
-    container_name: gatewayserver
-    environment:
-      EUREKA_HOST: eurekaserver
-    restart: always
-    ports:
-      - 8080:8080
-    networks:
-      - docker_bridge
-    depends_on:
-      - eurekaserver
-    entrypoint: /wait-for-it.sh -t 20 eurekaserver:8761 -- java -jar app.jar
-#    command: sh -c './wait-for eurekaserver:8761 -t 10'
-
+    entrypoint: /wait-for-it.sh -t 10 product_db:3306 -- java -jar app.jar
 
 volumes:
   product:
-  review:
 
 networks:
   docker_bridge:
