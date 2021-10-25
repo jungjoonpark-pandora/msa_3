@@ -17,16 +17,16 @@ pipeline {
    stage('Build Jar') {
       steps {
           dir('jjpark/eurekaserver') {
-              sh './gradlew clean build'
+              sh './gradlew bootJar' //sh './gradlew clean build'
           }
           dir('jjpark/gatewayserver') {
-              sh './gradlew clean build'
+              sh './gradlew bootJar' //sh './gradlew clean build'
           }
           dir('jjpark/product') {
-              sh './gradlew clean build'
+              sh './gradlew bootJar' //sh './gradlew clean build'
           }
           dir('jjpark/review') {
-              sh './gradlew clean build'
+              sh './gradlew bootJar' // sh './gradlew clean build'
           }
       }
     }
@@ -34,11 +34,10 @@ pipeline {
     stage('Build Docker Image') {
       steps {
         script {
-            docker.build("jjpark/eurekaserver:latest", "-f eurekaserver/Dockerfile .")
-            docker.build("jjpark/gatewayserver:latest", "-f gatewayserver/Dockerfile .")
-//             def discovery = docker.build("wjsgus95/discovery:latest", "-f discovery/Dockerfile .")
-//             def product = docker.build("wjsgus95/product:latest", "-f product/Dockerfile .")
-//             def review = docker.build("wjsgus95/review:latest", "-f review/Dockerfile .")
+            eurekaserver = docker.build("jjpark/eurekaserver:latest", "-f eurekaserver/Dockerfile .")
+            gatewayserver = docker.build("jjpark/gatewayserver:latest", "-f gatewayserver/Dockerfile .")
+            product = docker.build("jjpark/product:latest", "-f product/Dockerfile .")
+            review = docker.build("jjpark/review:latest", "-f review/Dockerfile .")
         }
       }
     }
