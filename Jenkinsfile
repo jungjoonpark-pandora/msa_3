@@ -16,7 +16,7 @@ pipeline {
 
    stage('Build Jar') {
       steps {
-          dir('eurekaserver') {
+          dir('jjpark/eurekaserver') {
               sh './gradlew bootJar'
           }
           dir('gatewayserver') {
