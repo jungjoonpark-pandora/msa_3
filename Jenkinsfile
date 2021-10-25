@@ -37,17 +37,16 @@ pipeline {
             eurekaserver = docker.build("jjpark/eurekaserver")
             gatewayserver = docker.build("jjpark/gatewayserver")
             product = docker.build("jjpark/product")
-            review = docker.build("jjpark/review:latest")
+            review = docker.build("jjpark/review")
         }
       }
     }
-    
-    stage('Run Docker Container') {
+
+    stage('compose up') {
       steps {
-        sh """
-          docker stop ${params.CONTAINER_NAME} && docker rm ${params.CONTAINER_NAME}
-          docker run -d --name ${params.CONTAINER_NAME} -p 8080:8080 ${params.IMAGE_NAME}
-        """
+        dir("jjpark") {
+          sh "docker-compose up -d"
+        }
       }
     }
   }
